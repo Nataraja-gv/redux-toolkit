@@ -7,14 +7,16 @@ import {
   decrementByAmount,
 } from "./features/count/countslice";
 import { useSelector, useDispatch } from "react-redux";
+import { inputChanage } from "./features/userinput/inputslice";
 import "./index.css";
 
 export const App = () => {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const userinput = useSelector((state) => state.auth.user);
   const count = useSelector((state) => state.counter.count);
-
+  const input_value = useSelector((state) => state.input.value);
   const [username, setUserName] = useState("");
+  const [value, setValue] = useState("");
   const dispatch = useDispatch();
 
   const handleLogout = () => {
@@ -29,7 +31,8 @@ export const App = () => {
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <h1 className="text-2xl font-semibold mb-4">
-          {/* Welcome, {userinput ? userinput.username : "Login me"} for Redux Tutorial */}
+          Welcome, {userinput ? userinput.username : "Login me"} for Redux
+          Tutorial
         </h1>
 
         <h2 className="text-lg mb-4">Count Amount: {count}</h2>
@@ -61,10 +64,10 @@ export const App = () => {
           </button>
         </div>
 
-        <div style={{marginTop:"20px"}}>
+        <div style={{ marginTop: "20px" }}>
           {isAuthenticated ? (
             <div>
-              <h1>Welcom  to {username}</h1>
+              {/* <h1>Welcom  to {username}</h1> */}
               <button
                 onClick={handleLogout}
                 className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
@@ -91,5 +94,28 @@ export const App = () => {
           )}
         </div>
       </div>
+
+      <div>
+        <h1> using UseState this section input fieldset {value} </h1>
+        <input
+          type="text"
+          placeholder="Enter username"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          className="border border-gray-300 rounded px-4 py-2 mb-4 w-full"
+        />
+      </div>
+
+      <div>
+        <h1> using Redux this section input fieldset { input_value} </h1>
+        <input
+          type="text"
+          placeholder="Enter username"
+          value={input_value}
+          onChange={(e)=>dispatch(inputChanage(e.target.value))}
+          className="border border-gray-300 rounded px-4 py-2 mb-4 w-full"
+        />
+      </div>
     </div>
-  )};
+  );
+};
